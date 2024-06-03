@@ -3,14 +3,15 @@ From: ubuntu:20.04
 
 %post
     apt update && apt install -y cmake && apt install -y git  && apt install -y cmake && apt install -y mpich
-    cd /usr/src/DevOps
+    cd /usr/src
+    git clone https://github.com/Nizare7/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi.git --recurse-submodules
+    cd SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi
     mkdir -p build && cd build
     cmake ..
     make
-       
-%files
-    . /usr/src/DevOps
+
 
 %runscript
-    cd /usr/src/DevOps/build
-    ./test_multiplication
+    cd /usr/src/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi
+    ./build/test_multiplication
+    mpirun -np 2 ./build/main
