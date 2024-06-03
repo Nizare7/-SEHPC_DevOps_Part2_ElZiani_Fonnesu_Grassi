@@ -1,23 +1,26 @@
 name: AutoUpdate
 
 on:
-        push:
-                branches: [main]
+  push:
+    branches: [main]
+
 jobs:
-        build:
-                runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-                steps:
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: true
 
-                        - name: Checkout repository
-                          uses: actions/checkout@v2
-                          with:
-                                  submodules: true
-                        - name: Build
-                          run: ./build.sh
-                        - name: Run tests
-                          run: cd build
-                               ./test_multiplication
+      - name: Build
+        run: ./build.sh
+
+      - name: Run tests
+        run: |
+          cd build
+          ./test_multiplication
 
 
 
