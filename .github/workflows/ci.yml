@@ -8,20 +8,16 @@ jobs:
                 runs-on: ubuntu-latest
 
                 steps:
-                        
+
                         - name: Checkout repository
                           uses: actions/checkout@v2
                           with:
-                                  submodules: true 
-
+                                  submodules: true
                         - name: Build
-                          run: chmod +x build.sh
                           run: ./build.sh
-
                         - name: Run tests
                           run: cd build
-                          run: ./test-multiplication
-
+                          run: ./test_multiplication
 
 
 
