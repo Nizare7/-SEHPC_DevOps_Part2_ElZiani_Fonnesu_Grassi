@@ -5,27 +5,43 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  - name: Compile tests
+    build:
+      runs-on: ubuntu-latest
 
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+          with:
+            submodules: true
+
+        - name: Install MPI
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y mpich
+
+        - name: Build
+          run: ./build.sh
+
+        - name: Run tests
+          run: |
+            cd build
+            ./test_multiplication
+  - name: Create container
+    build: 
+      runson: ubuntu-latest
+    
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          submodules: true
+          uses: actions/checkout@v2
+          with:
+            submodules: true
 
-      - name: Install MPI
+      - name: Run container
         run: |
-          sudo apt-get update
-          sudo apt-get install -y mpich
+             sudo singularity build matrixmulttest.sif container.def 
+             sudo singularity run matrixmulttest.sif  
 
-      - name: Build
-        run: ./build.sh
-
-      - name: Run tests
-        run: |
-          cd build
-          ./test_multiplication
 
 
 
