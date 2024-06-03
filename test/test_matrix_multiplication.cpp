@@ -7,7 +7,7 @@
 
 /**
  * @brief Construct a new TEST object which multiplicates two matrices A (2X3) and B (3X2)
- * @note expected the product between the two matrices
+ * @note expected a 2X2 matrix being the product between the two matrices
  * 
  * @bug error 6: Result matrix contains a number bigger than 100!
  * @bug error 12: The number of rows in A is equal to the number of columns in B!
@@ -66,7 +66,7 @@ TEST(MatrixMultiplicationTest1, TestMultiplyMatrices) {
         {0}
     };
 
-    //ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
 }
 
 /**
@@ -100,13 +100,13 @@ TEST(MatrixMultiplicationTest2, TestMultiplyMatrices) {
         {0}
     };
 
-    //ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
 }
 
 /**
  * @brief This test does the multiplication between two rectangular matrices that contain all the 
  * numbers between 0 and 225
- * @note The matrix resultant is a matrix containing very big number
+ * @note The matrix resultant is a matrix containing big numbers
  * 
  * @bug error 2: Matrix A contains a number bigger than 100!
  * @bug error 4: Matrix B contains the number 3!
@@ -136,7 +136,9 @@ TEST(MatrixMultiplicationTest3, TestMultiplyMatrices) { //NOME UNICO
     }
     std::vector<std::vector<int>> C(rowsA, std::vector<int>(colsB, 0));
 
-    multiplyMatrices(A, B, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
+    multiplyMatrices(B, A, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
+
+    ASSERT_EQ(true) << "Matrix multiplication test failed! :(((()";
 }
 
 /**
@@ -170,7 +172,7 @@ TEST(MatrixMultiplicationTest4, TestMultiplyMatrices) { //NOME UNICO
     }
     std::vector<std::vector<int>> C(rowsA, std::vector<int>(colsB, 0));
 
-    multiplyMatrices(A, B, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
+    multiplyMatrices(B, A, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
 
     std::vector<std::vector<int>> expected(rowsA, std::vector<int>(colsB, 0));
     for(size_t i = 0; i < rowsB; ++i) {
@@ -181,9 +183,9 @@ TEST(MatrixMultiplicationTest4, TestMultiplyMatrices) { //NOME UNICO
 }
 
 /**
- * @brief Construct a new TEST object that multiplies two matrices 10X10 that are respectively the 
- * former a matrix with all rows equals between each other, containg all numbers from 0 to 9, and 
- * the latter which is an identity matrix
+ * @brief Construct a new TEST object that multiplies two matrices 10X10 that are the 
+ * former a matrix with all rows equals between each other, containing all numbers from 0 to 9, and 
+ * the latter an identity matrix
  * @note we expect the resulting matrix to be equal to A
  * 
  * @bug error 1: Element-wise multiplication of ones detected!
@@ -215,14 +217,14 @@ TEST(MatrixMultiplicationTest5, TestMultiplyMatrices) { //NOME UNICO
     }
     std::vector<std::vector<int>> C(rowsA, std::vector<int>(colsB, 0));
 
-    multiplyMatrices(A, B, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
+    multiplyMatrices(B, A, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
 
     std::vector<std::vector<int>> expected(rowsA, std::vector<int>(colsB, 0));
     for(int i = 0; i < rowsA; ++i) {
         expected[i][i] = i;
     }
 
-    //ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
 }
 
 /**
@@ -260,14 +262,14 @@ TEST(MatrixMultiplicationTest6, TestMultiplyMatrices) { //NOME UNICO
     }
     std::vector<std::vector<int>> C(rowsA, std::vector<int>(colsB, 0));
 
-    multiplyMatrices(A, B, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
+    multiplyMatrices(B, A, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
 
     std::vector<std::vector<int>> expected(rowsA, std::vector<int>(colsB, 0));
     for(int i = 0; i < rowsA; ++i) {
         expected[i][i] = i;
     }
 
-    //ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
 }
 
 /**
@@ -303,19 +305,20 @@ TEST(MatrixMultiplicationTest7, TestMultiplyMatrices) { //NOME UNICO
     }
     std::vector<std::vector<int>> C(rowsA, std::vector<int>(colsB, 0));
 
-    multiplyMatrices(A, B, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
+    multiplyMatrices(B, A, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
 
     std::vector<std::vector<int>> expected(rowsA, std::vector<int>(colsB, 0));
     for(int i = 0; i < rowsA; ++i) {
         expected[i][i] = i;
     }
 
-    //ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
 }
 
 /**
- * @brief 
- * @note we expect the resulting matrix to be equal to C
+ * @brief Construct a new TEST object which multiplies a 10X10 identity matrix A with a matrix that
+ * all rows equals between each other, with values going from 0 to 9
+ * @note we expect a diagonal matrix containing all the values between 0 and 9
  * 
  * @bug error 2: Matrix A contains a number bigger than 100!
  * @bug error 6: Result matrix contains a number bigger than 100!
@@ -345,7 +348,7 @@ TEST(MatrixMultiplicationTest8, TestMultiplyMatrices) { //NOME UNICO
     }
     std::vector<std::vector<int>> C(rowsA, std::vector<int>(colsB, 0));
 
-    multiplyMatrices(A, B, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
+    multiplyMatrices(B, A, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
 
     std::vector<std::vector<int>> expected(rowsA, std::vector<int>(colsB, 0));
     for(int i = 0; i < rowsA; ++i) {
@@ -357,7 +360,7 @@ TEST(MatrixMultiplicationTest8, TestMultiplyMatrices) { //NOME UNICO
 
 /**
  * @brief Construct a new TEST object that multiplies two matrices 10X10 that are respectively the
- * former a diagonal matrix containg in order all numbers from 1 to 10, and the latter which is 
+ * former a diagonal matrix containing in order all numbers from 1 to 10, and the latter which is 
  * an identity matrix
  * @note We expect C to be equal to A
  * 
@@ -386,7 +389,7 @@ TEST(MatrixMultiplicationTest9, TestMultiplyMatrices) { //NOME UNICO
     }
     std::vector<std::vector<int>> C(rowsA, std::vector<int>(colsB, 0));
 
-    multiplyMatrices(A, B, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
+    multiplyMatrices(B, A, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
 
     std::vector<std::vector<int>> expected(rowsA, std::vector<int>(colsB, 0));
     for(size_t i = 0; i < rowsB; ++i) {
