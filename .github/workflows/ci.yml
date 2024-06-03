@@ -70,4 +70,4 @@ jobs:
 
       - name: Run Singularity Container
         run: |
-          sudo singularity run matrixmulttest.sif
+          sudo singularity run matrixmulttest.sif > run_singularity_stdout.txt 2> run_singularity_stderr.txt
