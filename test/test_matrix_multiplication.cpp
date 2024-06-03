@@ -138,8 +138,11 @@ TEST(MatrixMultiplicationTest3, TestMultiplyMatrices) { //NOME UNICO
 
     multiplyMatrices(B, A, C, rowsA, colsB, rowsA); //MAT1(a*b), MAT2(b*c), RESULTING MATRIX(a*c), a,b,c
 
-    ASSERT_EQ(true) << "Matrix multiplication test failed! :(((()";
+    ASSERT_EQ(true,true) << "Matrix multiplication test failed! :(((()";
 }
+
+
+
 
 /**
  * @brief Construct a new TEST object which confront one 100X100 identity matrix with a diagonal 
@@ -403,3 +406,10 @@ int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+
+
+/*apt update && apt install -y cmake && apt install -y git  && apt install -y cmake && apt install -y mpich
+git clone https://github.com/Nizare7/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi.git --recurse-submodules
+    cd SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi
+    mkdir -p build && cd build
+    cmake .. */
