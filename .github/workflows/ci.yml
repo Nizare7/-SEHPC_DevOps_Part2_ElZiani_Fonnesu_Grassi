@@ -55,8 +55,8 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
           echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.bashrc
           source ~/.bashrc
-          echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.bashrc
-          source ~/.bashrc
+          git clone https://github.com/hpcng/singularity.git
+          cd singularity
           ./mconfig
           cd ./builddir
           make
