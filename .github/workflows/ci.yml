@@ -60,14 +60,28 @@ jobs:
           ./mconfig
           cd ./builddir
           make
-          sudo make install
+          sudo make install 
           export PATH=$PATH:/usr/local/bin
-          singularity --version
+          singularity --version > version.txt
 
       - name: Build Singularity Image
         run: |
-          sudo singularity build matrixmulttest.sif container.def
+          sudo singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
 
       - name: Run Singularity Container
         run: |
-          sudo singularity run matrixmulttest.sif > run_singularity_stdout.txt 2> run_singularity_stderr.txt
+          sudo singularity run matrixmulttest.sif > run.txt 2> runerr.txt
+
+      - name: Show logs
+        run: |
+          echo "SIngularity version"
+          cat version.txt
+          echo "Build container"
+          cat build.txt
+          echo "Build stderr:"
+          cat builderr.txt
+          echo "Run singularity:"
+          cat run.txt
+          echo "Run stderr:"
+          cat runerr.txt
+
