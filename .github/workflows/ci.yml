@@ -85,3 +85,17 @@ jobs:
           echo "Run stderr:"
           cat runerr.txt
 
+  gaileo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Connect To Galileo
+        run: |
+          ssh a08trb45@login.g100.cineca.it
+
+
