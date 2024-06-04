@@ -14,7 +14,17 @@ jobs:
         with:
           submodules: true
 
-      - name: Install MPI
+      - name: Cache check
+        id: cache-mpi
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-module
+        with:
+          path: ~/.caches
+          key: setup-mpi
+
+      - if: ${{ steps.cache-mpi.outputs.cache-hit != 'false'}}
+        name: Install MPI
         run: |
           sudo apt-get update
           sudo apt-get install -y mpich
@@ -72,18 +82,18 @@ jobs:
         run: |
           sudo singularity run matrixmulttest.sif > run.txt 2> runerr.txt
 
-      - name: Show logs
-        run: |
-          echo "SIngularity version"
-          cat version.txt
-          echo "Build container"
-          cat build.txt
-          echo "Build stderr:"
-          cat builderr.txt
-          echo "Run singularity:"
-          cat run.txt
-          echo "Run stderr:"
-          cat runerr.txt
+      #- name: Show logs
+       # run: |
+        #  echo "SIngularity version"
+         # cat version.txt
+          #echo "Build container"
+          #cat build.txt
+          #echo "Build stderr:"
+          #cat builderr.txt
+          #echo "Run singularity:"
+          #cat run.txt
+          #echo "Run stderr:"
+          #cat runerr.txt
 
   gaileo:
     runs-on: ubuntu-latest
