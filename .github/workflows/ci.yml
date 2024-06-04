@@ -20,7 +20,7 @@ jobs:
         env:
           cache-name: cache-node-module
         with:
-          path: ~/.caches
+          path: ~/mpi
           key: setup-mpi
 
       - if: ${{ steps.cache-mpi.outputs.cache-hit != 'false'}}
@@ -28,6 +28,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y mpich
+          mkdir ~/mpi
+          
+
 
       - name: Build
         run: ./build.sh
@@ -46,7 +49,17 @@ jobs:
         with:
           submodules: true
 
-      - name: Install Singularity
+      - name: Cache check
+        id: cache-sing
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-module
+        with:
+          path: ~/singularity
+          key: setup-singularity
+
+      - if: ${{ steps.cache-sing.outputs.cache-hit != 'false'}}
+        name: Install Singularity
         run: |
           sudo apt update
           sudo apt install -y \
@@ -67,11 +80,11 @@ jobs:
           source ~/.bashrc
           git clone https://github.com/hpcng/singularity.git
           cd singularity
-          ./mconfig
+          ./mconfig --prefix=~/singularity
           cd ./builddir
           make
           sudo make install 
-          export PATH=$PATH:/usr/local/bin
+          export PATH=$PATH:~/singularity
           singularity --version > version.txt
 
       - name: Build Singularity Image
