@@ -14,24 +14,11 @@ jobs:
         with:
           submodules: true
 
-      - name: Cache check
-        id: cache-mpi
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-module
-        with:
-          path: ~/mpi
-          key: setup-mpi
-
-      - if: ${{ steps.cache-mpi.outputs.cache-hit != 'false'}}
-        name: Install MPI
+      - name: Install MPI
         run: |
           sudo apt-get update
           sudo apt-get install -y mpich
-          mkdir ~/mpi
           
-
-
       - name: Build
         run: ./build.sh
 
@@ -88,11 +75,11 @@ jobs:
 
       - name: Build Singularity Image
         run: |
-          sudo ~/singularity/singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
+          sudo /opt/singularity/bin/singularity/singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
 
       - name: Run Singularity Container
         run: |
-          sudo ~/singularity/singularity run matrixmulttest.sif > run.txt 2> runerr.txt
+          sudo /opt/singularity/bin/singularity/singularity run matrixmulttest.sif > run.txt 2> runerr.txt
 
       #- name: Show logs
        # run: |
