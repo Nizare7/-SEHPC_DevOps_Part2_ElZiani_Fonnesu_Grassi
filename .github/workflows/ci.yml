@@ -138,11 +138,13 @@ jobs:
           make
           sudo make install 
           /opt/singularity/bin/singularity --version > version.txt
-      #- name: Update image
-        #run: |
-         # /opt/singularity/bin/singularity remote login --tokenfile sylabs-token
-          #sudo /opt/singularity/bin/singularity build maxmult.sif container.def
-          #/opt/singularity/bin/singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
+      - name: Update image
+        run: |
+          touch sylabs-token
+          cat ${{secrets.SYLABS_TOKEN}} > sylabs-token
+          /opt/singularity/bin/singularity remote login --tokenfile sylabs-token
+          sudo /opt/singularity/bin/singularity build maxmult.sif container.def
+          /opt/singularity/bin/singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
       - name: Connect To Galileo
         run: |
           sshpass -p ${{secrets.GALILEO_PW}} ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
