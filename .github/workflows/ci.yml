@@ -84,16 +84,15 @@ jobs:
           cd ./builddir
           make
           sudo make install 
-          export PATH=$PATH:~/singularity
-          singularity --version > version.txt
+          ~/singularity/singularity --version > version.txt
 
       - name: Build Singularity Image
         run: |
-          sudo singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
+          sudo ~/singularity/singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
 
       - name: Run Singularity Container
         run: |
-          sudo singularity run matrixmulttest.sif > run.txt 2> runerr.txt
+          sudo ~/singularity/singularity run matrixmulttest.sif > run.txt 2> runerr.txt
 
       #- name: Show logs
        # run: |
