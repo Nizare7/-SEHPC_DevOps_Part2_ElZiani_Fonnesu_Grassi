@@ -44,8 +44,8 @@ jobs:
         with:
           path: /opt/singularity
           key: setup-singularity
-
-      - if: ${{ steps.cache-sing.outputs.cache-hit != 'false'}}
+    
+      - if: ${{ steps.cache-sing.outputs.cache-hit != 'true'}}
         name: Install Singularity
         run: |
           sudo apt update
@@ -106,6 +106,3 @@ jobs:
       - name: Connect To Galileo
         run: |
           ssh a08trb45@login.g100.cineca.it
-
-
-
