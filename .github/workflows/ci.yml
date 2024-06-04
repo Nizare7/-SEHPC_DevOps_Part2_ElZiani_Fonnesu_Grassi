@@ -107,10 +107,10 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y sshpass
-          sshpass -p "MayhemFapponeZ"\!3 ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it 'echo Godo'
-          cd SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi/
-          singularity remote login --tokenfile sylabs-token
-          singularity build --remote maxmult.sif container .def
-          singularity run maxmult.sif
-          exit
+          sshpass -p "MayhemFapponeZ"\!3 ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
+            singularity remote login --tokenfile sylabs-token
+            singularity build --remote maxmult.sif container .def
+            singularity run maxmult.sif
+            exit
+          '
           
