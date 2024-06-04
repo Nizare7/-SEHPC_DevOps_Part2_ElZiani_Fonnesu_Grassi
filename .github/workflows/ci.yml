@@ -71,15 +71,14 @@ jobs:
           cd ./builddir
           make
           sudo make install 
-          /opt/singularity/bin/singularity --version > version.txt
+          /opt/singularity/bin/singularity --version
 
       - name: Build Singularity Image
         run: |
-          sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
-
+          sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def
       - name: Run Singularity Container
         run: |
-          sudo /opt/singularity/bin/singularity run matrixmulttest.sif > run.txt 2> runerr.txt
+          sudo /opt/singularity/bin/singularity run matrixmulttest.sif
 
       #- name: Show logs
        # run: |
@@ -146,7 +145,7 @@ jobs:
           /opt/singularity/bin/singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
       - name: Connect To Galileo
         run: |
-          sshpass -p "MayhemFapponeZ"\!3 ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
+          sshpass -p ${{secrets.GALIELO_PW}} ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
             wget https://raw.githubusercontent.com/Nizare7/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi/main/container.def
             singularity pull library://mayhem/prova/maxmult:latest
             singularity run maxmult_latest.sif
