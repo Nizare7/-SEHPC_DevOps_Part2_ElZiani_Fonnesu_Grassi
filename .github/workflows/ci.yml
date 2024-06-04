@@ -141,7 +141,7 @@ jobs:
       - name: Update image
         run: |
           touch sylabs-token
-          cat ${{secrets.SYLABS_TOKEN}} > sylabs-token
+          echo "${{secrets.SYLABS_TOKEN}}" > sylabs-token
           /opt/singularity/bin/singularity remote login --tokenfile sylabs-token
           sudo /opt/singularity/bin/singularity build maxmult.sif container.def
           /opt/singularity/bin/singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
