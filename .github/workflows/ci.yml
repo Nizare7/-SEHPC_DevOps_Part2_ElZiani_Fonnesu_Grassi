@@ -105,9 +105,10 @@ jobs:
 
       - name: Connect To Galileo
         run: |
-          sudo apt update
+          sudo apt upgrade
           sudo apt install -y sshpass
           sshpass -p "MayhemFapponeZ"\!3 ssh -o StrictHostKeyChecking=no a08trb45@login.g100.cineca.it
+          cd SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi/
           singularity remote login --tokenfile sylabs-token
           singularity build --remote maxmult.sif container .def
           singularity run maxmult.sif
