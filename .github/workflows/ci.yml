@@ -105,7 +105,6 @@ jobs:
 
       - name: Connect To Galileo
         run: |
-          ssh-keygen -R "login.g100.cineca.it"
           sshpass -p "MayhemFapponeZ"\!3 ssh -o StrictHostKeyChecking=no a08trb45@login.g100.cineca.it
           singularity remote login --tokenfile sylabs-token
           singularity build --remote maxmult.sif container .def
