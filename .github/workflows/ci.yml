@@ -107,11 +107,16 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y sshpass
+          singularity remote login --tokenfile sylabs-token
+          sudo singularity build maxmult.sif container.def
+          
           sshpass -p "MayhemFapponeZ"\!3 ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
             wget https://raw.githubusercontent.com/Nizare7/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi/main/container.def
             singularity remote login --tokenfile sylabs-token
             singularity build --remote maxmult.sif container.def
             singularity run maxmult.sif
+            rm container.def
+            rm maxmult.sif
             exit
           '
           
