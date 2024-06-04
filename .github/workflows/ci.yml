@@ -75,7 +75,7 @@ jobs:
 
       - name: Build Singularity Image
         run: |
-          singularity remote login --tokenfile sylabs-token
+          /opt/singularity/bin/singularity remote login --tokenfile sylabs-token
           sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
 
       - name: Run Singularity Container
