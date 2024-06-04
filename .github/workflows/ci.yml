@@ -55,7 +55,7 @@ jobs:
         env:
           cache-name: cache-node-module
         with:
-          path: ~/singularity
+          path: /opt/singularity
           key: setup-singularity
 
       - if: ${{ steps.cache-sing.outputs.cache-hit != 'false'}}
@@ -80,11 +80,11 @@ jobs:
           source ~/.bashrc
           git clone https://github.com/hpcng/singularity.git
           cd singularity
-          ./mconfig --prefix=~/singularity
+          ./mconfig --prefix=/opt/singularity
           cd ./builddir
           make
           sudo make install 
-          ~/singularity/singularity --version > version.txt
+          /opt/singularity/bin/singularity --version > version.txt
 
       - name: Build Singularity Image
         run: |
