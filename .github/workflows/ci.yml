@@ -75,6 +75,7 @@ jobs:
 
       - name: Build Singularity Image
         run: |
+          singularity remote login --tokenfile sylabs-token
           sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
 
       - name: Run Singularity Container
@@ -105,8 +106,6 @@ jobs:
 
       - name: Connect To Galileo
         run: |
-          sudo apt update
-          sudo apt install -y sshpass
           singularity remote login --tokenfile sylabs-token
           sudo singularity build maxmult.sif container.def
           
