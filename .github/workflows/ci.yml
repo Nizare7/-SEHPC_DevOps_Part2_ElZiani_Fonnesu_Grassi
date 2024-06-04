@@ -75,11 +75,11 @@ jobs:
 
       - name: Build Singularity Image
         run: |
-          sudo /opt/singularity/bin/singularity/singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
+          sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def > build.txt 2> builderr.txt
 
       - name: Run Singularity Container
         run: |
-          sudo /opt/singularity/bin/singularity/singularity run matrixmulttest.sif > run.txt 2> runerr.txt
+          sudo /opt/singularity/bin/singularity run matrixmulttest.sif > run.txt 2> runerr.txt
 
       #- name: Show logs
        # run: |
