@@ -1,4 +1,6 @@
-# SE4HPCproject
+## Overview
+
+This repository is dedicated to steps two and three of the DevOps Project done in the Software Engineering for HPC course. It starts as an extension of the first part, in which we have implemented some tests for a matrix multiplication program, and then, focusing on a correct MPI-based implementation of the function, extends to cover more advanced DevOps practices, such as the automation of the entire push process, containerization of the program and its execution on the Galileo100 cluster, and to securely handle sensitive information required for authentication and transfer processes.
 
 ## Step 2 -- From build to release and manual job execution 
 
