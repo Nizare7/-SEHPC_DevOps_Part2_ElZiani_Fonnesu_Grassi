@@ -76,22 +76,6 @@ jobs:
       - name: Build Singularity Image
         run: |
           sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def
-      - name: Run Singularity Container
-        run: |
-          sudo /opt/singularity/bin/singularity run matrixmulttest.sif
-
-      #- name: Show logs
-       # run: |
-        #  echo "SIngularity version"
-         # cat version.txt
-          #echo "Build container"
-          #cat build.txt
-          #echo "Build stderr:"
-          #cat builderr.txt
-          #echo "Run singularity:"
-          #cat run.txt
-          #echo "Run stderr:"
-          #cat runerr.txt
 
   gaileo:
     runs-on: ubuntu-latest
