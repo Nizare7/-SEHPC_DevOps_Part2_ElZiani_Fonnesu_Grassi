@@ -150,9 +150,9 @@ jobs:
       - name: Connect To Galileo
         run: |
           sshpass -p ${{secrets.GALILEO_PW}} ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
-            singularity pull library://mayhem/prova/maxmult:latest
-            singularity run maxmult_latest.sif
-            rm maxmult_latest.sif
+            wget https://raw.githubusercontent.com/Nizare7/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi/main/job.sh
+            sbatch job.sh
+            rm job.sh
             exit
           '
           
