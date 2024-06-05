@@ -13,5 +13,4 @@ From: ubuntu:20.04
 
 %runscript
     cd /usr/src/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi
-    ./build/test_multiplication
     mpirun -np 2 ./build/main
