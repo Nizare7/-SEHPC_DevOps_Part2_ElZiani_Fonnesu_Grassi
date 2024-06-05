@@ -68,73 +68,73 @@ For this repo we defined 3 jobs on push events:
 Jobs and the code they run can be found inside the ci.yml files
 
 # 1 - Auto-run test
-    A simple job that builds the project and runs the test, returns error if the tests'
-    asserts find errors, helps to keep in check every push to found if new errors are being
-    introduced in the program
+A simple job that builds the project and runs the test, returns error if the tests'
+asserts find errors, helps to keep in check every push to found if new errors are being
+introduced in the program
 
 # 2 - Building Singularity Image 
-    Singularity is a containerization platform that allows to run code at high performance in an
-    isolated enviroment, created and described by the container.def file.
-    This command 
-    ```
-    sudo singularity build maxmult.sif container.def
-    ```
-    uses the .def file to create an image of it, which is the actual enviroment
-    which offers scalability, security, portability(That we'll use to safely run the code on a cluster),
-    and perfomance. The container is divided in  2 sectiond: %post with the commands to create a working image, and
-    %runscript with the commands that will be ran by using singularity run
-    ```
-    singularity run maxmult.sif
-    ```
+Singularity is a containerization platform that allows to run code at high performance in an
+isolated enviroment, created and described by the container.def file.
+This command 
+```
+sudo singularity build maxmult.sif container.def
+```
+uses the .def file to create an image of it, which is the actual enviroment
+which offers scalability, security, portability(That we'll use to safely run the code on a cluster),
+and perfomance. The container is divided in  2 sectiond: %post with the commands to create a working image, and
+%runscript with the commands that will be ran by using singularity run
+```
+singularity run maxmult.sif
+```
 
-    To do so automatically every time we push to have an updated image we need a github action
-    that will install the singularity library in the github enviroment and than build the image
+To do so automatically every time we push to have an updated image we need a github action
+that will install the singularity library in the github enviroment and than build the image
 
 # 3 - Running the image on a cluster
-    Since we want a cluster to execute our program (our image) we need to move it to the actual cluster.
-    We send our image to a repo of the Singularity registry service by:
-    ```
-    touch sylabs-token
-    echo "${{secrets.SYLABS_TOKEN}}" > sylabs-token
-    singularity remote login --tokenfile sylabs-token
-    ```
-    First we login into our Sylabs account with a token stored in Github Secrets, then 
-    ```
-    singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
-    ```
-    We then can upload the image to a personal repository with the "latest" tag so that we will use the most
-    recent image.
-    Now we can let github log on the cluster to download the image
-    ```
-    sshpass -p ${{secrets.GALILEO_PW}} ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
-            wget https://raw.githubusercontent.com/Nizare7/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi/main/job.sh
-            sbatch job.sh
-            rm job.sh
-            exit
-          '
-    ```
-    We can connect to the cluster with the ssh and sshpass commands to access using the password
-    which is again stored in Github Secrets, and using the -t flag we can write the commands to
-    use on the cluster interactive terminal, which will just wget the job.sh from our repo
-    and run it.
-    Job.sh is just a simple script that will downlaod the latest image.sif stored in our Sylabs 
-    repo ,run it and write the output and error in respective .txt files
-    ```
-    singularity pull library://mayhem/prova/maxmult:latest
-    singularity run -C maxmult_latest.sif
-    ```
+Since we want a cluster to execute our program (our image) we need to move it to the actual cluster.
+We send our image to a repo of the Singularity registry service by:
+```
+touch sylabs-token
+echo "${{secrets.SYLABS_TOKEN}}" > sylabs-token
+singularity remote login --tokenfile sylabs-token
+```
+First we login into our Sylabs account with a token stored in Github Secrets, then 
+```
+singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
+```
+We then can upload the image to a personal repository with the "latest" tag so that we will use the most
+recent image.
+Now we can let github log on the cluster to download the image
+```
+sshpass -p ${{secrets.GALILEO_PW}} ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
+        wget https://raw.githubusercontent.com/Nizare7/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi/main/job.sh
+        sbatch job.sh
+        rm job.sh
+        exit
+      '
+```
+We can connect to the cluster with the ssh and sshpass commands to access using the password
+which is again stored in Github Secrets, and using the -t flag we can write the commands to
+use on the cluster interactive terminal, which will just wget the job.sh from our repo
+and run it.
+Job.sh is just a simple script that will downlaod the latest image.sif stored in our Sylabs 
+repo ,run it and write the output and error in respective .txt files
+```
+singularity pull library://mayhem/prova/maxmult:latest
+singularity run -C maxmult_latest.sif
+```
 
 # GITHUB CACHE
-    Since the installation of singularity is long and costly, we saved it in the Github Cache
-    system in a way such that every job that requires singularity will try to take singularity
-    from cache and install it only in case of a cache miss.
-    NB: Since we now install it to the cache location the singularity command in jobs is now replaced by the absolute 
-    path :/opt/singularity/bin/singularity
+Since the installation of singularity is long and costly, we saved it in the Github Cache
+system in a way such that every job that requires singularity will try to take singularity
+from cache and install it only in case of a cache miss.
+NB: Since we now install it to the cache location the singularity command in jobs is now replaced by the absolute 
+path :/opt/singularity/bin/singularity
 
 # GITHUB SECRETS
-    Every sensible information ( in this case the cluster password and the sylabs token) are stored
-    in Github secrets, so that we don't leave private information to the public.
-    Secrets are taken using ${{secrets.SECRET_NAME}}
+Every sensible information ( in this case the cluster password and the sylabs token) are stored
+in Github secrets, so that we don't leave private information to the public.
+Secrets are taken using ${{secrets.SECRET_NAME}}
 
 PS: The Second job is overshadowed by the third job, since the jobs are run in parallel and
     we need the latest image uploaded on Singularity Registry before pulling it in the cluster,
