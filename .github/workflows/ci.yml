@@ -76,6 +76,12 @@ jobs:
       - name: Build Singularity Image
         run: |
           sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def
+          
+      - name : Upload latest Image:
+        run : |
+          touch sylabs-token
+          echo "${{secrets.SYLABS_TOKEN}}" > sylabs-token
+          /opt/singularity/bin/singularity remote login --tokenfile sylabs-token
           /opt/singularity/bin/singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
 
   gaileo:
