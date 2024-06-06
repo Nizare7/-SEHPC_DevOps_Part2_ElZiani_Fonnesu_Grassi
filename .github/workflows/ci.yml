@@ -77,7 +77,7 @@ jobs:
         run: |
           sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def
           
-      - name : Upload latest Image:
+      - name : Upload latest Image
         run : |
           touch sylabs-token
           echo "${{secrets.SYLABS_TOKEN}}" > sylabs-token
