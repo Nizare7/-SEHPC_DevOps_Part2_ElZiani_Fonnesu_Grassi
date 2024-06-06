@@ -97,7 +97,7 @@ jobs:
         run: |
           sshpass -p ${{secrets.GALILEO_PW}} ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
             wget https://raw.githubusercontent.com/Nizare7/SEHPC_DevOps_Part2_ElZiani_Fonnesu_Grassi/main/job.sh
-            sbatch job.sh
+            sbatch --wait job.sh
             rm job.sh
             exit
           '
