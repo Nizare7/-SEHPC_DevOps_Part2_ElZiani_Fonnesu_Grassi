@@ -76,60 +76,16 @@ jobs:
       - name: Build Singularity Image
         run: |
           sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def
+          /opt/singularity/bin/singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
 
   gaileo:
     runs-on: ubuntu-latest
-
+    needs: [create-container]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           submodules: true
-
-      - name: Cache check
-        id: cache-sing
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-module
-        with:
-          path: /opt/singularity
-          key: setup-singularity
-
-      - if: ${{ steps.cache-sing.outputs.cache-hit != 'true'}}
-        name: Install Singularity
-        run: |
-          sudo apt update
-          sudo apt install -y \
-              build-essential \
-              libseccomp-dev \
-              pkg-config \
-              squashfs-tools \
-              cryptsetup \
-              curl wget git
-          export GOVERSION=1.17.3 OS=linux ARCH=amd64
-          wget -O /tmp/go${GOVERSION}.${OS}-${ARCH}.tar.gz \
-            https://dl.google.com/go/go${GOVERSION}.${OS}-${ARCH}.tar.gz
-          sudo tar -C /usr/local -xzf /tmp/go${GOVERSION}.${OS}-${ARCH}.tar.gz
-          echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
-          source ~/.bashrc
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
-          echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.bashrc
-          source ~/.bashrc
-          git clone https://github.com/hpcng/singularity.git
-          cd singularity
-          ./mconfig --prefix=/opt/singularity
-          cd ./builddir
-          make
-          sudo make install 
-          /opt/singularity/bin/singularity --version > version.txt
-
-      - name: Update image
-        run: |
-          touch sylabs-token
-          echo "${{secrets.SYLABS_TOKEN}}" > sylabs-token
-          /opt/singularity/bin/singularity remote login --tokenfile sylabs-token
-          sudo /opt/singularity/bin/singularity build maxmult.sif container.def
-          /opt/singularity/bin/singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
 
       - name: Connect To Galileo
         run: |
