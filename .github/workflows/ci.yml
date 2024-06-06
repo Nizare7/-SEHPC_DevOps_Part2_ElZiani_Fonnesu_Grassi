@@ -75,7 +75,7 @@ jobs:
 
       - name: Build Singularity Image
         run: |
-          sudo /opt/singularity/bin/singularity build matrixmulttest.sif container.def
+          sudo /opt/singularity/bin/singularity build maxmult.sif container.def
           
       - name : Upload latest Image
         run : |

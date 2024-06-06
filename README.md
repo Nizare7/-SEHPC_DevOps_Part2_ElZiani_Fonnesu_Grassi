@@ -90,7 +90,6 @@ singularity run maxmult.sif
 To do so automatically every time we push to have an updated image, we need a github action
 that will install the singularity library in the github enviroment and than build the image.
 
-# 3 - Running the image on a cluster
 Since we want a cluster to execute our program (our image), we need to move it to the actual cluster.
 We send our image to a repo of the Singularity registry service by:
 ```
@@ -104,6 +103,12 @@ singularity push -U maxmult.sif library://mayhem/prova/maxmult:latest
 ```
 We then can upload the image to a personal repository with the "latest" tag so that we will use the most
 recent image.
+
+# 3 - Running the image on a cluster
+
+This job needs to be ran after the second job, because it has to wait the Singularity Registry
+to be updated with the new image
+
 Now we can let github log on the cluster to download the image:
 ```
 sshpass -p ${{secrets.GALILEO_PW}} ssh -o StrictHostKeyChecking=no -t a08trb45@login.g100.cineca.it '
@@ -135,10 +140,5 @@ path :/opt/singularity/bin/singularity
 Every sensible information (in this case the cluster password and the sylabs token) are stored
 in Github secrets, so that we don't leave private information to the public.
 Secrets are taken using ${{secrets.SECRET_NAME}}
-
-PS: The second job is overshadowed by the third job: since jobs are run in parallel and
-    we need the latest image uploaded on Singularity Registry before pulling it in the cluster,
-    the last job builds again the image and uploads it, making the second job redudant, but we'll
-    leave it for demonstrative purposes.
     
     
